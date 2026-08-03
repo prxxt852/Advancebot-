@@ -1,6 +1,7 @@
 import os
 from pyrogram import Client, filters
 from pyrogram.types import Message
+from aiohttp import web
 
 # आपकी डिटेल्स
 API_ID = 31018731
@@ -23,8 +24,23 @@ async def start_handler(client, message: Message):
 async def ping_handler(client, message: Message):
     await message.reply_text("🏓 Pong! बोट बिल्कुल सही काम कर रहा है।")
 
-# बोट शुरू करने का सबसे आसान और नया तरीका (बिना किसी एरर के)
+# Render के लिए फर्जी वेब सर्वर (ताकि बोट बंद न हो)
+async def handle(request):
+    return web.Response(text="Bot is running!")
+
+async def start_web_server():
+    server_app = web.Application()
+    server_app.router.add_get("/", handle)
+    runner = web.AppRunner(server_app)
+    await runner.setup()
+    port = int(os.environ.get("PORT", 10000))
+    site = web.TCPSite(runner, "0.0.0.0", port)
+    await site.start()
+
 if __name__ == "__main__":
-    print("Starting bot...")
+    import asyncio
+    print("Starting bot and dummy server...")
+    loop = asyncio.get_event_loop()
+    loop.create_task(start_web_server())
     app.run()
     
