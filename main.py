@@ -84,7 +84,5 @@ async def banall_command(client: Client, message: Message):
 # बोट चलाना शुरू करें (Python 3.14 कंपेटिबल फिक्स)
 if __name__ == "__main__":
     print("Bot is starting...")
-    loop = asyncio.get_event_loop_policy().get_event_loop()
-    loop.run_until_complete(app.start())
-    loop.run_until_complete(asyncio.Event().wait())
-
+    app.run()
+    
