@@ -3,7 +3,7 @@ import asyncio
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-# आपकी सीक्रेट डिटेल्स सीधे यहाँ कॉन्फ़िगर कर दी गई हैं
+# आपकी सीक्रेट डिटेल्स
 API_ID = 31018731
 API_HASH = "1aa9517cdbcab415564cc8654d6507b6"
 BOT_TOKEN = "8987040911:AAEqXn-fEyPbsIDHslq2WnKGzHxEpsqvYh8"
@@ -81,8 +81,10 @@ async def banall_command(client: Client, message: Message):
     await message.reply_text("⚠️ **Banall कमांड शुरू कर दी गई है!** सुरक्षा कारणों से यह ग्रुप के नॉन-एडमिन सदस्यों को हटाने की प्रक्रिया शुरू कर रहा है...")
 
 
-# बोट चलाना शुरू करें
+# बोट चलाना शुरू करें (Python 3.14 कंपेटिबल फिक्स)
 if __name__ == "__main__":
     print("Bot is starting...")
-    app.run()
-  
+    loop = asyncio.get_event_loop_policy().get_event_loop()
+    loop.run_until_complete(app.start())
+    loop.run_until_complete(asyncio.Event().wait())
+    
